@@ -1,65 +1,75 @@
-import React, { useState, ChangeEventHandler, createContext } from 'react';
-
-import './App.css';
-// import MainBar from "./components/MainBar"
-
-export const MainApi = createContext(undefined);
-export const SecondaryApi = createContext(undefined);
+import {
+  ApiResponse,
+  Date,
+  DestinationType,
+  Icons,
+  InputValue,
+} from "components/types";
+import useAppContext from "./context/useContext";
+import React, { useState } from "react";
+import { MainBar } from "./components/MainBar";
+import { v4 as uuid } from "uuid";
+import {
+  EntireApp,
+  StyledButton,
+  StyledInputSection,
+  StyledMainInput,
+} from "./styles/StyleApp";
 
 const App: React.FC = () => {
+  const [destination, setDestination] = useState<DestinationType>(null);
 
-  type InputValue = React.ChangeEvent<HTMLInputElement>
-
-  const [destination, setDestination] = useState<string | undefined>(undefined)
-  const [weatherData, setWeatherData] = useState<object | undefined>(undefined)
-  const [secondaryWeatherData, setSecondaryWeatherData] = useState<string | undefined>(undefined);
+  const { setContextValue } = useAppContext();
 
   const handleOnChange = (e: InputValue): void => {
-    setDestination(e.target.value); 
-};                        
+    setDestination(e.target.value);
+  };
 
-  const handleGetData = async (destination: string | undefined)  => {
-    
-    const API = `https://api.openweathermap.org/data/2.5/forecast?q=${destination}&appid=bfd9e24dfea0d5fd385e2137bce7cb95`
-    
-      try {
-        const result  = await fetch(API);
-        
-        const rawData = await result.json();
-        const trimedMainData = rawData.list[0].main;
-        const trimedSecondaryData = rawData.list
+  const handleGetData = async (destination: DestinationType) => {
+    const API = `https://api.openweathermap.org/data/2.5/forecast?q=${destination}&appid=bfd9e24dfea0d5fd385e2137bce7cb95`;
 
-        setWeatherData(trimedMainData);
-        setSecondaryWeatherData(trimedSecondaryData);
+    try {
+      const result = await fetch(API);
+
+      const rawData = await result.json();
+
+      // @ts-ignore
+      rawData.list.forEach((data) => (data.main.id = uuid()));
+      const icons = rawData.list.map(
+        (elem: any) => elem.weather[0].main as Icons
+      );
+      const date = rawData.list.map((elem: any) => elem.dt as Date);
+      const weathers = rawData.list.map(
+        (elem: any) => elem.main
+      ) as ApiResponse[];
+
+      console.log(icons);
+      if (!weathers) {
+        throw new Error("Problem with correctness of the API response ");
+      } else {
+        setContextValue({ weathers, icons, date });
+      }
     } catch (error) {
-        throw Error
+      throw new Error("Problem with getting the API response");
     }
+  };
 
-
-  }
   return (
-    <div className="App">
-      <p>zyje</p>
-      <>
-      <label>Wpisz nazwe</label>
-      <input 
-        type="text" 
-        value={destination} 
-        onChange={handleOnChange}>
-      </input>
-      <button 
-        onClick={() => handleGetData(destination)}>
-        Szukaj
-      </button>
-      {/* <MainApi.Provider value={weatherData} >
-        <SecondaryApi.Provider value={secondaryWeatherData}>
-            <MainBar/>
-        </SecondaryApi.Provider>
-      </MainApi.Provider> */}
-       
-    </>
-    </div>
+    <EntireApp>
+      <StyledInputSection>
+        <StyledMainInput
+          placeholder="Wpisz miejscowość"
+          type="text"
+          value={destination || ""}
+          onChange={handleOnChange}
+        ></StyledMainInput>
+        <StyledButton onClick={() => handleGetData(destination)}>
+          Szukaj
+        </StyledButton>
+      </StyledInputSection>
+      <MainBar key={uuid()} />
+    </EntireApp>
   );
-}
+};
 
 export default App;
