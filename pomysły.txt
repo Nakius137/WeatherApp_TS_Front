@@ -1,0 +1,4 @@
+1. Ogarniecie React Routers
+2. Szczegóły będą wyswietlac sie po kliknieciu w karte w nowej karcie "/Szczegóły" zamiast w mainie
+3. Dodanie logowania użytkownika z baza danych
+4. Zaimplementowanie opcji dodania do ulubionych x miasta do y uzytkownika

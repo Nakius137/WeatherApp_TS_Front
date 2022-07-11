@@ -2,13 +2,13 @@ import styled from "styled-components";
 
 export const EntireApp = styled.body`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const StyledInputSection = styled.div`
-  position: absolute;
-  left: 50%;
-  top: 20%;
-  transform: translate(-65%, -65%);
   width: 200px;
   height: 200px;
   display: inline-block;
@@ -46,12 +46,12 @@ export const StyledMainInput = styled.input`
 
 export const StyledButton = styled.button`
   float: right;
-  transform: translate(15px, 15px);
   border: 1px solid red;
   border-radius: 15px;
   background-color: white;
   width: 75px;
   height: 25px;
+  margin-top: 5px;
   &:hover {
     cursor: pointer;
   }

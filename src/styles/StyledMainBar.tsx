@@ -1,16 +1,10 @@
 import styled from "styled-components";
 
 export const StyledMain = styled.div`
-  display: inline-block;
-  position: absolute;
-  left: 50%;
-  top: 60%;
-
-  &[StyledMainImg] {
-    margin-left: 50px;
+  & p {
+    text-align: center;
+    color: white;
   }
-
-  transform: translate(-50%, -90%);
   animation-name: animationOpacity;
   animation-duration: 1.5s;
 
@@ -49,11 +43,7 @@ export const Animation = styled.div`
 
 export const StyledLogo = styled.img`
   width: 300px;
-  height: 150;
-  position: fixed;
-  left: 785px;
-  top: 450px;
-  transform: translate(-20%, 50%);
+  margin-top: 20rem;
   animation-name: animationSpin;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
@@ -69,6 +59,17 @@ export const StyledLogo = styled.img`
 `;
 
 export const StyledMainImg = styled.img`
+  width: 250px;
+  height: 250px;
+
+  //
+`;
+
+export const StyledMainP = styled.p`
+  font-size: 45px;
+`;
+
+export const StyledFrontImg = styled.img`
   width: 250px;
   height: 250px;
 `;

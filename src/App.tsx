@@ -1,10 +1,10 @@
 import {
+  MainData,
   ApiResponse,
-  Date,
   DestinationType,
   Icons,
   InputValue,
-} from "components/types";
+} from "types";
 import useAppContext from "./context/useContext";
 import React, { useState } from "react";
 import { MainBar } from "./components/MainBar";
@@ -15,6 +15,18 @@ import {
   StyledInputSection,
   StyledMainInput,
 } from "./styles/StyleApp";
+
+const handleTrimedData = (result: any) => {
+  // const main = result.list.forEach((data: any) => (data.main.id = uuid()));
+
+  const icons = result.list.map((elem: any) => elem.weather[0].main as Icons);
+
+  const date = result.list.map((elem: any) => elem.dt_txt as ApiResponse);
+
+  const weathers = result.list.map((elem: any) => elem.main) as MainData[];
+
+  return [icons, date, weathers];
+};
 
 const App: React.FC = () => {
   const [destination, setDestination] = useState<DestinationType>(null);
@@ -29,21 +41,11 @@ const App: React.FC = () => {
     const API = `https://api.openweathermap.org/data/2.5/forecast?q=${destination}&appid=bfd9e24dfea0d5fd385e2137bce7cb95`;
 
     try {
-      const result = await fetch(API);
+      const result = await (await fetch(API)).json();
 
-      const rawData = await result.json();
+      console.log(result);
+      const [icons, date, weathers] = handleTrimedData(result);
 
-      // @ts-ignore
-      rawData.list.forEach((data) => (data.main.id = uuid()));
-      const icons = rawData.list.map(
-        (elem: any) => elem.weather[0].main as Icons
-      );
-      const date = rawData.list.map((elem: any) => elem.dt as Date);
-      const weathers = rawData.list.map(
-        (elem: any) => elem.main
-      ) as ApiResponse[];
-
-      console.log(icons);
       if (!weathers) {
         throw new Error("Problem with correctness of the API response ");
       } else {
@@ -67,7 +69,7 @@ const App: React.FC = () => {
           Szukaj
         </StyledButton>
       </StyledInputSection>
-      <MainBar key={uuid()} />
+      <MainBar />
     </EntireApp>
   );
 };

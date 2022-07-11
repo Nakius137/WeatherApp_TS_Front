@@ -8,11 +8,13 @@ import {
 } from "../styles/StyledSecondaryBar";
 import { StyledP, StyledSpan } from "../styles/StyledMainBar";
 import { KintoC } from "../shared/temperatureConvert";
-import { ApiResponse, Icons } from "./types";
+import { MainData, Icons } from "../types";
 import { handleImg } from "../shared/imageChoose";
+import { handleDate } from "../shared/dayWriter";
+import { useNavigate } from "react-router-dom";
 
 type Props = Omit<
-  ApiResponse,
+  MainData,
   "grnd_level" | "sea_level" | "temp_kf" | "humidity" | `id`
 >;
 
@@ -23,6 +25,7 @@ export const SecondaryBar: React.FC<Props> = ({
   feels_like,
   pressure,
   icon,
+  index,
 }) => {
   temp = KintoC(temp);
   temp_max = KintoC(temp_max);
@@ -30,6 +33,13 @@ export const SecondaryBar: React.FC<Props> = ({
   feels_like = KintoC(feels_like);
 
   const [isHover, setIsHover] = useState(false);
+  let navigate = useNavigate();
+
+  // @ts-ignore
+  const handleNavigate = (index) => {
+    navigate("details");
+    console.log(index);
+  };
 
   const hoverChange = () => {
     setIsHover((isHover) => !isHover);
@@ -60,7 +70,8 @@ export const SecondaryBar: React.FC<Props> = ({
   const textOfHover = (
     <>
       <StyledSearchBarInfo>
-        {handleImg(icon as Icons)}
+        {handleDate(index!)}
+        <StyledImg src={handleImg(icon as Icons)}></StyledImg>
         <StyledTemperatureDiv>
           <StyledSpanHover> {temp_max}°C</StyledSpanHover>
         </StyledTemperatureDiv>
@@ -71,7 +82,7 @@ export const SecondaryBar: React.FC<Props> = ({
   const text = isHover ? textOnHover : textOfHover;
 
   return (
-    <StyledSearchBarContainer onClick={hoverChange}>
+    <StyledSearchBarContainer onClick={handleNavigate}>
       {text}
     </StyledSearchBarContainer>
   );

@@ -1,8 +1,8 @@
-import { ApiResponse } from "components/types";
+import { MainData } from "types";
 import React, { Dispatch, SetStateAction } from "react";
 
 export interface ContextProperties {
-  weathers: ApiResponse[];
+  weathers: MainData[];
   icons: string;
   date: number;
 }
