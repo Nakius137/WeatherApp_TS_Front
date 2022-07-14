@@ -29,7 +29,7 @@ export const StyledSearchBarContainer = styled.div`
 `;
 
 export const StyledSearchBarInfo = styled.div`
-  background-color: #999898;
+  background-color: #61ccf7;
   border: 1px solid black;
   border-radius: 15px;
   height: 298px;

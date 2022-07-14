@@ -1,4 +1,4 @@
-import useAppContext from "../context/useContext";
+import useAppContext from "../hooks/useContext";
 import React from "react";
 import { MainData, Icons } from "../types";
 import { SecondaryBarList } from "./SecondaryBarList";

@@ -11,7 +11,10 @@ export const EntireApp = styled.body`
 export const StyledInputSection = styled.div`
   width: 200px;
   height: 200px;
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   animation-name: animationOpacity;
   animation-duration: 1.5s;
   @keyframes animationOpacity {
@@ -45,7 +48,7 @@ export const StyledMainInput = styled.input`
 `;
 
 export const StyledButton = styled.button`
-  float: right;
+  margin-left: auto;
   border: 1px solid red;
   border-radius: 15px;
   background-color: white;
@@ -54,11 +57,32 @@ export const StyledButton = styled.button`
   margin-top: 5px;
   &:hover {
     cursor: pointer;
-  }
-  &:active {
     cursor: pointer;
     background-color: red;
     color: white;
     transition-duration: 0.2s;
   }
+`;
+
+export const StyledLogButton = styled.button`
+  margin-right: auto;
+  margin-left: 1rem;
+  border: 1px solid red;
+  border-radius: 15px;
+  background-color: white;
+  width: 100px;
+  height: 25px;
+  margin-top: 5px;
+  &:hover {
+    cursor: pointer;
+    cursor: pointer;
+    background-color: red;
+    color: white;
+    transition-duration: 0.2s;
+  }
+`;
+
+export const StyledButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
 `;

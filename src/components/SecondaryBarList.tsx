@@ -1,6 +1,6 @@
 import React from "react";
 import { SecondaryBar } from "./SecondaryBar";
-import useAppContext from "../context/useContext";
+import useAppContext from "../hooks/useContext";
 
 export const SecondaryBarList: React.FC = () => {
   const {

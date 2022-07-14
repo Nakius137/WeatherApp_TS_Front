@@ -5,16 +5,18 @@ import {
   Icons,
   InputValue,
 } from "types";
-import useAppContext from "./context/useContext";
+import useAppContext from "./hooks/useContext";
 import React, { useState } from "react";
 import { MainBar } from "./components/MainBar";
-import { v4 as uuid } from "uuid";
 import {
   EntireApp,
   StyledButton,
   StyledInputSection,
   StyledMainInput,
+  StyledLogButton,
+  StyledButtonContainer,
 } from "./styles/StyleApp";
+import { useNavigate } from "react-router-dom";
 
 const handleTrimedData = (result: any) => {
   // const main = result.list.forEach((data: any) => (data.main.id = uuid()));
@@ -32,6 +34,12 @@ const App: React.FC = () => {
   const [destination, setDestination] = useState<DestinationType>(null);
 
   const { setContextValue } = useAppContext();
+
+  let navigate = useNavigate();
+
+  const handleLoginNavigate = () => {
+    navigate("login");
+  };
 
   const handleOnChange = (e: InputValue): void => {
     setDestination(e.target.value);
@@ -65,9 +73,14 @@ const App: React.FC = () => {
           value={destination || ""}
           onChange={handleOnChange}
         ></StyledMainInput>
-        <StyledButton onClick={() => handleGetData(destination)}>
-          Szukaj
-        </StyledButton>
+        <StyledButtonContainer>
+          <StyledButton onClick={() => handleGetData(destination)}>
+            Szukaj
+          </StyledButton>
+          <StyledLogButton onClick={handleLoginNavigate}>
+            Zaloguj się
+          </StyledLogButton>
+        </StyledButtonContainer>
       </StyledInputSection>
       <MainBar />
     </EntireApp>

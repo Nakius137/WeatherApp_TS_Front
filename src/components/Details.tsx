@@ -1,4 +1,4 @@
-import useAppContext from "../context/useContext";
+import useAppContext from "../hooks/useContext";
 import React from "react";
 import {
   StyledDetailsP,
@@ -11,16 +11,24 @@ import {
   StyledLink,
 } from "../styles/StyleDetails";
 import { KintoC } from "../shared/temperatureConvert";
-import { handleImg } from "shared/imageChoose";
+import { handleImg } from "../shared/imageChoose";
 import { Icons } from "types";
+import { useParams } from "react-router-dom";
 
-export const Details: React.FC = (index) => {
+type DetailParams = {
+  id: string;
+};
+
+export const Details: React.FC = () => {
   const {
     contextValues: { weathers, icons },
   } = useAppContext();
 
-  let { temp, temp_max, temp_min, feels_like, pressure } =
-    weathers[index] || {};
+  console.log(useParams());
+  const id = useParams<DetailParams>().id as unknown as number;
+  console.log(id);
+
+  let { temp, temp_max, temp_min, feels_like, pressure } = weathers[id] || {};
 
   temp = KintoC(temp);
   temp_max = KintoC(temp_max);
@@ -43,13 +51,13 @@ export const Details: React.FC = (index) => {
           </StyledDetailsP>
         </StyleContainerLeft>
         <StyledDetailsImg
-          src={handleImg(icons[index] as Icons)}
+          src={handleImg(icons[id] as Icons)}
         ></StyledDetailsImg>
         <StyledContainerRight>
           <StyledDetailsP>
             Odczuwalna temperatura wynosi: {feels_like}°C
           </StyledDetailsP>
-          <StyledDetailsP>Cisnienie wynosi: {pressure}Pas</StyledDetailsP>
+          <StyledDetailsP>Cisnienie wynosi: {pressure}Pa</StyledDetailsP>
         </StyledContainerRight>
       </StyleWraper>
     </StyledComponent>

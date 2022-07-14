@@ -2,3 +2,5 @@
 2. Szczegóły będą wyswietlac sie po kliknieciu w karte w nowej karcie "/Szczegóły" zamiast w mainie
 3. Dodanie logowania użytkownika z baza danych
 4. Zaimplementowanie opcji dodania do ulubionych x miasta do y uzytkownika
+5. Zapamietanie x i y uzytkownika gdy klika w Szczegóły i go tam zwrocic gdy da powrot,
+bo wywala na sama gore maina

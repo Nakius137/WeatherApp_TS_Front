@@ -1,6 +1,6 @@
 import React from "react";
 import { StyledP } from "../styles/StyledMainBar";
-import useAppContext from "../context/useContext";
+import useAppContext from "../hooks/useContext";
 
 export const handleDate = (index: number) => {
   const {

@@ -5,6 +5,11 @@ export const StyledMain = styled.div`
     text-align: center;
     color: white;
   }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
   animation-name: animationOpacity;
   animation-duration: 1.5s;
 
@@ -61,8 +66,6 @@ export const StyledLogo = styled.img`
 export const StyledMainImg = styled.img`
   width: 250px;
   height: 250px;
-
-  //
 `;
 
 export const StyledMainP = styled.p`
