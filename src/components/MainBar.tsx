@@ -15,8 +15,9 @@ import {
 import { StyledSearchBarDiv } from "../styles/StyledSecondaryBar";
 import { handleImg } from "../shared/imageChoose";
 import { handleDate } from "../shared/dayWriter";
+import { FetchArrayProps } from "./@types";
 
-export const MainBar: React.FC = () => {
+export const MainBar: React.FC<FetchArrayProps> = (props: FetchArrayProps) => {
   const {
     contextValues: { weathers, icons },
   } = useAppContext();
@@ -33,13 +34,18 @@ export const MainBar: React.FC = () => {
 
   return (
     <div>
-      {temp ? (
+      {temp && props.fetchData ? (
         <>
           <StyledMain>
-            <div>
-              <StyledMainP>{handleDate(index)}</StyledMainP>
-              <StyledMainImg src={handleImg(icons[0] as Icons)}></StyledMainImg>
-            </div>
+            {props.fetchData
+              ? props.fetchData.map(({ Favorite_City }) => {
+                  return <p>{Favorite_City}</p>;
+                })
+              : null}
+          </StyledMain>
+          <StyledMain>
+            <StyledMainP>{handleDate(index)}</StyledMainP>
+            <StyledMainImg src={handleImg(icons[0] as Icons)}></StyledMainImg>
             <StyledP>
               Temperatura wynosi:
               <StyledSpan> {temp}°C</StyledSpan>

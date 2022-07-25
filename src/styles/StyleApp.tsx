@@ -86,3 +86,31 @@ export const StyledButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
 `;
+
+export const StyledFavoriteButton = styled.button`
+  margin-right: auto;
+  margin-left: 1rem;
+  border: 1px solid red;
+  border-radius: 15px;
+  background-color: white;
+  width: 150px;
+  height: 25px;
+  margin-top: 5px;
+  &:hover {
+    cursor: pointer;
+    cursor: pointer;
+    background-color: red;
+    color: white;
+    transition-duration: 0.2s;
+  }
+  animation-name: animationOpacity;
+  animation-duration: 1.5s;
+  @keyframes animationOpacity {
+    0% {
+      opacity: 0%;
+    }
+    100% {
+      opacity: 100%;
+    }
+  }
+`;

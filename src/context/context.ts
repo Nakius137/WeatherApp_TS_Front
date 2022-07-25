@@ -5,6 +5,7 @@ export interface ContextProperties {
   weathers: MainData[];
   icons: string;
   date: number;
+  isAuth: boolean;
 }
 
 interface Context {
@@ -16,6 +17,7 @@ export const defaultContext: ContextProperties = {
   weathers: [],
   icons: "",
   date: 0,
+  isAuth: false,
 };
 
 export default React.createContext<Context>({

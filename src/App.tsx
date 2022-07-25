@@ -1,89 +1,30 @@
-import {
-  MainData,
-  ApiResponse,
-  DestinationType,
-  Icons,
-  InputValue,
-} from "types";
+import React, { useState, useEffect } from "react";
+
 import useAppContext from "./hooks/useContext";
-import React, { useState } from "react";
-import { MainBar } from "./components/MainBar";
-import {
-  EntireApp,
-  StyledButton,
-  StyledInputSection,
-  StyledMainInput,
-  StyledLogButton,
-  StyledButtonContainer,
-} from "./styles/StyleApp";
-import { useNavigate } from "react-router-dom";
-
-const handleTrimedData = (result: any) => {
-  // const main = result.list.forEach((data: any) => (data.main.id = uuid()));
-
-  const icons = result.list.map((elem: any) => elem.weather[0].main as Icons);
-
-  const date = result.list.map((elem: any) => elem.dt_txt as ApiResponse);
-
-  const weathers = result.list.map((elem: any) => elem.main) as MainData[];
-
-  return [icons, date, weathers];
-};
+import { Route, Routes } from "react-router-dom";
+import { Details } from "./pages/DetailsPage";
+import { Login } from "./pages/LoginPage";
+import MainPage from "./pages/MainPage";
 
 const App: React.FC = () => {
-  const [destination, setDestination] = useState<DestinationType>(null);
+  const [backendData, setBackendData] = useState({});
 
-  const { setContextValue } = useAppContext();
+  useEffect(() => {
+    fetch("/login")
+      .then((response) => response.json())
+      .then((data) => setBackendData(data));
+  }, []);
 
-  let navigate = useNavigate();
-
-  const handleLoginNavigate = () => {
-    navigate("login");
-  };
-
-  const handleOnChange = (e: InputValue): void => {
-    setDestination(e.target.value);
-  };
-
-  const handleGetData = async (destination: DestinationType) => {
-    const API = `https://api.openweathermap.org/data/2.5/forecast?q=${destination}&appid=bfd9e24dfea0d5fd385e2137bce7cb95`;
-
-    try {
-      const result = await (await fetch(API)).json();
-
-      console.log(result);
-      const [icons, date, weathers] = handleTrimedData(result);
-
-      if (!weathers) {
-        throw new Error("Problem with correctness of the API response ");
-      } else {
-        setContextValue({ weathers, icons, date });
-      }
-    } catch (error) {
-      throw new Error("Problem with getting the API response");
-    }
-  };
-
+  const {
+    contextValues: { isAuth },
+  } = useAppContext();
   return (
-    <EntireApp>
-      <StyledInputSection>
-        <StyledMainInput
-          placeholder="Wpisz miejscowość"
-          type="text"
-          value={destination || ""}
-          onChange={handleOnChange}
-        ></StyledMainInput>
-        <StyledButtonContainer>
-          <StyledButton onClick={() => handleGetData(destination)}>
-            Szukaj
-          </StyledButton>
-          <StyledLogButton onClick={handleLoginNavigate}>
-            Zaloguj się
-          </StyledLogButton>
-        </StyledButtonContainer>
-      </StyledInputSection>
-      <MainBar />
-    </EntireApp>
+    <Routes>
+      <Route path="/" element={isAuth ? <MainPage /> : <Login />}></Route>
+      <Route path="/App" element={isAuth ? <MainPage /> : <Login />}></Route>
+      <Route path="/:id" element={isAuth ? <Details /> : <Login />}></Route>
+      <Route path="*" element={isAuth ? <MainPage /> : <Login />}></Route>
+    </Routes>
   );
 };
 

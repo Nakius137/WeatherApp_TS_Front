@@ -34,3 +34,12 @@ interface WeatherData {
 interface WeatherName {
   main: string;
 }
+
+export interface FetchPropsArray {
+  FetchData: FetchProps[];
+}
+
+interface FetchProps {
+  Email: string;
+  FavoriteCity: string[];
+}

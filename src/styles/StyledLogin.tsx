@@ -1,30 +1,4 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-
-export const StyledLink = styled(Link)`
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-  &:hover {
-    color: white;
-    transition-duration: color, 2.5s;
-  }
-`;
-
-export const StyledButton = styled.div`
-  border: 1px solid black;
-  width: 4rem;
-  height: 1rem;
-  padding-left: 1.5rem;
-  padding-right: 0.5rem;
-  padding-bottom: 1rem;
-  padding-top: 0.5rem;
-  background-color: white;
-  &:hover {
-    background-color: black;
-    transition: background, 0.5s;
-  }
-`;
 
 export const StyledComponent = styled.div`
   padding: 1rem;
