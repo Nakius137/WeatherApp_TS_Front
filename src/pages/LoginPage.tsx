@@ -1,4 +1,8 @@
-import { AuthenticationDetails, CognitoUser } from "amazon-cognito-identity-js";
+import {
+  AuthenticationDetails,
+  CognitoUser,
+  CognitoUserAttribute,
+} from "amazon-cognito-identity-js";
 import UserPool from "../environment/UserPool";
 import React, { useState } from "react";
 import {
@@ -33,6 +37,37 @@ export const Login = () => {
     });
   };
 
+  const setCognitoUserAttribute = (
+    attributeKey: string,
+    attributeValue: string
+  ) => {
+    let data = {
+      Name: attributeKey,
+      Value: attributeValue,
+    };
+
+    return new CognitoUserAttribute(data);
+  };
+
+  const handleRegisterOnSubmit = () => {
+    let email = login;
+    let attributeList = [];
+
+    attributeList.push(setCognitoUserAttribute("email", email));
+
+    UserPool.signUp(
+      email,
+      password,
+      attributeList,
+      //@ts-ignore
+      null,
+      (err, data) => {
+        if (err) console.error(err);
+        alert("Udało się zarejestrować, możesz przejść do logowania");
+      }
+    );
+  };
+
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
 
@@ -55,7 +90,9 @@ export const Login = () => {
         <StyleduSubmitButton onClick={handleOnSubmit}>
           Zaloguj się
         </StyleduSubmitButton>
-        <StyleduSubmitButton>Rejestracja</StyleduSubmitButton>
+        <StyleduSubmitButton onClick={handleRegisterOnSubmit}>
+          Rejestracja
+        </StyleduSubmitButton>
       </StyledButtonsContainer>
     </StyledComponent>
   );

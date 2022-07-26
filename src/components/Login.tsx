@@ -2,18 +2,14 @@ import { AuthenticationDetails, CognitoUser } from "amazon-cognito-identity-js";
 import UserPool from "../environment/UserPool";
 import React, { useState } from "react";
 import {
-  StyledButton,
   StyledComponent,
-  StyledLink,
   StyledInput,
   StyleduSubmitButton,
   StyledButtonsContainer,
 } from "../styles/StyledLogin";
 
 export const Login = () => {
-  const handleOnSubmit = () => {
-    console.log(login, "\n", password);
-    console.log(process.env.REACT_APP_USER_POOL_ID);
+  const handleLoginOnSubmit = () => {
     const user = new CognitoUser({
       Username: login,
       Pool: UserPool,
@@ -31,14 +27,20 @@ export const Login = () => {
     });
   };
 
+  const handleRegisterOnSubmit = () => {
+    console.log("halo");
+    //@ts-ignore
+    UserPool.signUp(login, password, [], null, (err, data) => {
+      if (err) console.error(err);
+      console.log(data);
+    });
+    console.log("halo");
+  };
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
 
   return (
     <StyledComponent>
-      <StyledButton>
-        <StyledLink to={"/"}>Powrót</StyledLink>
-      </StyledButton>
       <StyledInput
         onChange={(e) => {
           setLogin(e.target.value);
@@ -51,10 +53,12 @@ export const Login = () => {
         }}
       ></StyledInput>
       <StyledButtonsContainer>
-        <StyleduSubmitButton onClick={handleOnSubmit}>
+        <StyleduSubmitButton onClick={handleLoginOnSubmit}>
           Zaloguj się
         </StyleduSubmitButton>
-        <StyleduSubmitButton>Rejestracja</StyleduSubmitButton>
+        <StyleduSubmitButton onClick={handleRegisterOnSubmit}>
+          Rejestracja
+        </StyleduSubmitButton>
       </StyledButtonsContainer>
     </StyledComponent>
   );
