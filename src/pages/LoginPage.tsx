@@ -15,6 +15,8 @@ import useAppContext from "../hooks/useContext";
 
 export const Login = () => {
   const { setContextValue, contextValues } = useAppContext();
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleOnSubmit = () => {
     const user = new CognitoUser({
@@ -29,11 +31,11 @@ export const Login = () => {
 
     user.authenticateUser(authDetails, {
       onSuccess: () => {
-        console.log("Sukces");
         setContextValue({ ...contextValues, isAuth: true });
       },
-      onFailure: (error) => console.log(`Fail - ${error}`),
-      newPasswordRequired: () => console.log("newpaswddreq"),
+      onFailure: () => {
+        alert("Wpisz poprawne dane lub się zarejestruj");
+      },
     });
   };
 
@@ -68,9 +70,6 @@ export const Login = () => {
     );
   };
 
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
-
   return (
     <StyledComponent>
       <StyledInput
@@ -86,6 +85,7 @@ export const Login = () => {
           setPassword(e.target.value);
         }}
       ></StyledInput>
+
       <StyledButtonsContainer>
         <StyleduSubmitButton onClick={handleOnSubmit}>
           Zaloguj się

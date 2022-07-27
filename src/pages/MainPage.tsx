@@ -15,7 +15,7 @@ import {
   StyledButton,
   StyledInputSection,
   StyledMainInput,
-  StyledLogButton,
+  StyledLogOutButton,
   StyledButtonContainer,
   StyledFavoriteButton,
 } from "../styles/StyleApp";
@@ -31,17 +31,25 @@ const handleTrimedData = (result: any) => {
 };
 
 const App: React.FC = () => {
+  const {
+    contextValues: { isAuth },
+  } = useAppContext();
+
   const [destination, setDestination] = useState<DestinationType>(null);
   const [backendData, setBackendData] = useState();
 
   const Email = UserPool.getCurrentUser()?.getUsername().toString();
 
   useEffect(() => {
-    fetch(`/login?email=${Email}`)
+    fetch(`/favcity?email=${Email}`)
       .then((response) => response.json())
       .then((data) => setBackendData(data))
       .catch((err) => console.log(err));
   }, []);
+
+  const handleLogOut = () => {
+    setContextValue({ ...contextValues, isAuth: false });
+  };
 
   const { setContextValue, contextValues } = useAppContext();
 
@@ -68,23 +76,23 @@ const App: React.FC = () => {
 
   const handleFavorite = async () => {
     const postData = {
-      //@ts-ignore
       email: Email,
-      //@ts-ignore
       favoriteCity: destination,
     };
-    await fetch("http://localhost:5000/login", {
+    await fetch("http://localhost:5000/favcity", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      //@ts-ignore
       body: JSON.stringify(postData),
     });
   };
 
   return (
     <EntireApp>
+      <StyledLogOutButton onClick={handleLogOut}>
+        Wyloguj sie
+      </StyledLogOutButton>
       <StyledInputSection>
         <StyledMainInput
           placeholder="Wpisz miejscowość"

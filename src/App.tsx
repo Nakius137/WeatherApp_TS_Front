@@ -5,15 +5,18 @@ import { Route, Routes } from "react-router-dom";
 import { Details } from "./pages/DetailsPage";
 import { Login } from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";
+import useAuth from "./hooks/useAuth";
 
 const App: React.FC = () => {
   const [backendData, setBackendData] = useState({});
 
   useEffect(() => {
-    fetch("/login")
+    fetch("/favcity")
       .then((response) => response.json())
       .then((data) => setBackendData(data));
   }, []);
+
+  useAuth();
 
   const {
     contextValues: { isAuth },

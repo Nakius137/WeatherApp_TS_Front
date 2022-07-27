@@ -1,5 +1,5 @@
 import useAppContext from "../hooks/useContext";
-import React from "react";
+import React, { useState } from "react";
 import { MainData, Icons } from "../types";
 import { SecondaryBarList } from "./SecondaryBarList";
 import { KintoC } from "../shared/temperatureConvert";
@@ -22,10 +22,32 @@ export const MainBar: React.FC<FetchArrayProps> = (props: FetchArrayProps) => {
     contextValues: { weathers, icons },
   } = useAppContext();
 
+  const [favoriteDestination, setFavoriteDestination] = useState("");
+
+  const handleFavoriteDestination = (
+    favcity: React.SetStateAction<string>
+  ): void => {
+    setFavoriteDestination(favcity);
+    console.log(favoriteDestination);
+  };
+
   let { temp, temp_max, temp_min, feels_like, pressure }: MainData =
     weathers[0] || {};
 
   const index = 0;
+
+  const test = [...new Set(props.fetchData)];
+  console.log(test);
+
+  const text = test.map(({ Favorite_City }) => {
+    return (
+      <button
+      //  onClick={handleFavoriteDestination(Favorite_City)}
+      >
+        {Favorite_City}
+      </button>
+    );
+  });
 
   temp = KintoC(temp);
   temp_max = KintoC(temp_max);
@@ -36,13 +58,7 @@ export const MainBar: React.FC<FetchArrayProps> = (props: FetchArrayProps) => {
     <div>
       {temp && props.fetchData ? (
         <>
-          <StyledMain>
-            {props.fetchData
-              ? props.fetchData.map(({ Favorite_City }) => {
-                  return <p>{Favorite_City}</p>;
-                })
-              : null}
-          </StyledMain>
+          <StyledMain>{props.fetchData ? text : null}</StyledMain>
           <StyledMain>
             <StyledMainP>{handleDate(index)}</StyledMainP>
             <StyledMainImg src={handleImg(icons[0] as Icons)}></StyledMainImg>

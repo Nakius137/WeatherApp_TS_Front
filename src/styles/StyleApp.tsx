@@ -114,3 +114,20 @@ export const StyledFavoriteButton = styled.button`
     }
   }
 `;
+
+export const StyledLogOutButton = styled.button`
+  margin-right: auto;
+  border: 1px solid red;
+  border-radius: 15px;
+  background-color: white;
+  width: 100px;
+  height: 25px;
+  margin-top: 5px;
+  &:hover {
+    cursor: pointer;
+    cursor: pointer;
+    background-color: red;
+    color: white;
+    transition-duration: 0.2s;
+  }
+`;
