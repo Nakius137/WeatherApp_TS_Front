@@ -22,19 +22,16 @@ export const Login = () => {
 
     user.authenticateUser(authDetails, {
       onSuccess: () => console.log("Sukces"),
-      onFailure: (error) => console.log(`Fail - ${error}`),
+      onFailure: () => alert("Wprowadź poprawne dane lub się zarejestruj"),
       newPasswordRequired: () => console.log("newpaswddreq"),
     });
   };
 
   const handleRegisterOnSubmit = () => {
-    console.log("halo");
     //@ts-ignore
-    UserPool.signUp(login, password, [], null, (err, data) => {
+    UserPool.signUp(login, password, [], null, (err) => {
       if (err) console.error(err);
-      console.log(data);
     });
-    console.log("halo");
   };
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");

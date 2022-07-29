@@ -15,11 +15,14 @@ export type MainData = {
   index?: number;
 };
 
+export interface FavCity {
+  email: string;
+  favoriteCity: string;
+}
+
 export type Icons = "Clouds" | "Clear" | "Rain";
 
 export type InputValue = React.ChangeEvent<HTMLInputElement>;
-
-export type DestinationType = string | null;
 
 export interface ApiResponse {
   list: WeatherData[];

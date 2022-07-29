@@ -24,9 +24,7 @@ export const Details: React.FC = () => {
     contextValues: { weathers, icons },
   } = useAppContext();
 
-  console.log(useParams());
   const id = useParams<DetailParams>().id as unknown as number;
-  console.log(id);
 
   let { temp, temp_max, temp_min, feels_like, pressure } = weathers[id] || {};
 

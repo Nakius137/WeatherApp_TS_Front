@@ -76,3 +76,48 @@ export const StyledFrontImg = styled.img`
   width: 250px;
   height: 250px;
 `;
+
+export const StyledFavoriteCity = styled.p`
+  padding-left: 10px;
+  padding-right: 10px;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+export const StyledFavoriteCityCotainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin-left: auto;
+  margin-right: auto;
+  animation-name: animationOpacity;
+  animation-duration: 1.5s;
+
+  @keyframes animationOpacity {
+    0% {
+      opacity: 0%;
+    }
+    100% {
+      opacity: 100%;
+    }
+  }
+`;
+
+export const StyledFavoriteDelete = styled.button`
+  position: absolute;
+  margin-top: 2.5rem;
+  border-radius: 15px;
+  padding-left: 1.25rem;
+  padding-right: 1.5rem;
+  color: white;
+  background-color: #cc3838;
+  &:hover {
+    cursor: pointer;
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    transition-duration: 0.2s;
+  }
+`;

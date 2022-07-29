@@ -34,7 +34,7 @@ export const SecondaryBar: React.FC<Props> = ({
   let navigate = useNavigate();
 
   const handleNavigate = () => {
-    navigate("/" + index);
+    navigate("/details/" + index);
   };
 
   return (

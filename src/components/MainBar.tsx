@@ -1,5 +1,5 @@
 import useAppContext from "../hooks/useContext";
-import React, { useState } from "react";
+import React from "react";
 import { MainData, Icons } from "../types";
 import { SecondaryBarList } from "./SecondaryBarList";
 import { KintoC } from "../shared/temperatureConvert";
@@ -11,54 +11,88 @@ import {
   Animation,
   StyledMainP,
   StyledMainImg,
+  StyledFavoriteCityCotainer,
+  StyledFavoriteCity,
+  StyledFavoriteDelete,
 } from "../styles/StyledMainBar";
 import { StyledSearchBarDiv } from "../styles/StyledSecondaryBar";
 import { handleImg } from "../shared/imageChoose";
 import { handleDate } from "../shared/dayWriter";
-import { FetchArrayProps } from "./@types";
+import UserPool from "../environment/UserPool";
+import { getWeatherData } from "../shared/API";
 
-export const MainBar: React.FC<FetchArrayProps> = (props: FetchArrayProps) => {
-  const {
-    contextValues: { weathers, icons },
-  } = useAppContext();
+export const MainBar: React.FC = () => {
+  const { contextValues, setContextValue } = useAppContext();
 
-  const [favoriteDestination, setFavoriteDestination] = useState("");
-
-  const handleFavoriteDestination = (
-    favcity: React.SetStateAction<string>
-  ): void => {
-    setFavoriteDestination(favcity);
-    console.log(favoriteDestination);
-  };
+  const { icons, weathers, favCities } = contextValues;
 
   let { temp, temp_max, temp_min, feels_like, pressure }: MainData =
     weathers[0] || {};
 
   const index = 0;
 
-  const test = [...new Set(props.fetchData)];
-  console.log(test);
-
-  const text = test.map(({ Favorite_City }) => {
-    return (
-      <button
-      //  onClick={handleFavoriteDestination(Favorite_City)}
-      >
-        {Favorite_City}
-      </button>
-    );
-  });
-
   temp = KintoC(temp);
   temp_max = KintoC(temp_max);
   temp_min = KintoC(temp_min);
   feels_like = KintoC(feels_like);
 
+  const handleDelete = async (favoriteCity: string) => {
+    const postData = {
+      email: UserPool.getCurrentUser()?.getUsername().toString() as string,
+      favoriteCity: favoriteCity,
+    };
+
+    try {
+      await fetch("http://localhost:5000/favcity", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postData),
+      });
+      setContextValue({
+        ...contextValues,
+        favCities: favCities.filter(
+          (favCity) => favCity.favoriteCity !== postData.favoriteCity
+        ),
+      });
+      console.log(contextValues.favCities);
+    } catch (error: unknown) {
+      console.log(error);
+    }
+  };
+
+  const handleOnSearchClick = async (destination: string) => {
+    const { weathers, icons, date } = await getWeatherData(destination);
+    setContextValue({ ...contextValues, weathers, icons, date });
+  };
+
   return (
     <div>
-      {temp && props.fetchData ? (
+      {temp && favCities ? (
         <>
-          <StyledMain>{props.fetchData ? text : null}</StyledMain>
+          <StyledFavoriteCityCotainer>
+            {favCities.map(({ favoriteCity }) => {
+              return (
+                <StyledFavoriteCityCotainer>
+                  <StyledFavoriteCity
+                    onClick={() => handleOnSearchClick(favoriteCity)}
+                  >
+                    {favoriteCity}{" "}
+                  </StyledFavoriteCity>
+
+                  <StyledFavoriteDelete
+                    //@ts-ignore
+                    onClick={() => {
+                      handleDelete(favoriteCity);
+                    }}
+                  >
+                    Usuń
+                  </StyledFavoriteDelete>
+                </StyledFavoriteCityCotainer>
+              );
+            })}
+          </StyledFavoriteCityCotainer>
           <StyledMain>
             <StyledMainP>{handleDate(index)}</StyledMainP>
             <StyledMainImg src={handleImg(icons[0] as Icons)}></StyledMainImg>

@@ -8,14 +8,6 @@ import MainPage from "./pages/MainPage";
 import useAuth from "./hooks/useAuth";
 
 const App: React.FC = () => {
-  const [backendData, setBackendData] = useState({});
-
-  useEffect(() => {
-    fetch("/favcity")
-      .then((response) => response.json())
-      .then((data) => setBackendData(data));
-  }, []);
-
   useAuth();
 
   const {
@@ -25,7 +17,10 @@ const App: React.FC = () => {
     <Routes>
       <Route path="/" element={isAuth ? <MainPage /> : <Login />}></Route>
       <Route path="/App" element={isAuth ? <MainPage /> : <Login />}></Route>
-      <Route path="/:id" element={isAuth ? <Details /> : <Login />}></Route>
+      <Route
+        path="/details/:id"
+        element={isAuth ? <Details /> : <Login />}
+      ></Route>
       <Route path="*" element={isAuth ? <MainPage /> : <Login />}></Route>
     </Routes>
   );

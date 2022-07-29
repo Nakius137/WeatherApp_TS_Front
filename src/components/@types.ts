@@ -16,12 +16,3 @@ export type InputValue = React.ChangeEvent<HTMLInputElement>;
 export type DestinationType = string | null;
 
 export type ResponseType = object | null;
-
-export interface FetchArrayProps {
-  fetchData: FetchProps[];
-}
-
-interface FetchProps {
-  Email: string;
-  Favorite_City: string[];
-}

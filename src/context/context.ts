@@ -1,10 +1,11 @@
-import { MainData } from "types";
+import { FavCity, MainData } from "types";
 import React, { Dispatch, SetStateAction } from "react";
 
 export interface ContextProperties {
   weathers: MainData[];
   icons: string;
   date: number;
+  favCities: FavCity[];
   isAuth: boolean;
 }
 
@@ -17,6 +18,7 @@ export const defaultContext: ContextProperties = {
   weathers: [],
   icons: "",
   date: 0,
+  favCities: [],
   isAuth: false,
 };
 
