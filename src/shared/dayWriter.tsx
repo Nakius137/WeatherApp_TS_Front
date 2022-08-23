@@ -7,11 +7,8 @@ export const handleDate = (index: number) => {
     contextValues: { date },
   } = useAppContext();
 
-  // @ts-ignore
   const day = new Date(date[index]).getDay();
-  // @ts-ignore
   const hours = new Date(date[index]).getHours();
-  // @ts-ignore
   const mins = new Date(date[index]).getMinutes() + "0";
 
   if (!isNaN(day))

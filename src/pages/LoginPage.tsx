@@ -30,8 +30,11 @@ export const Login = () => {
     });
 
     user.authenticateUser(authDetails, {
-      onSuccess: () => {
+      onSuccess: (session) => {
         setContextValue({ ...contextValues, isAuth: true });
+        const tokens = {
+          accessToken: session.getAccessToken().getJwtToken(),
+        };
       },
       onFailure: () => {
         alert("Wpisz poprawne dane lub się zarejestruj");

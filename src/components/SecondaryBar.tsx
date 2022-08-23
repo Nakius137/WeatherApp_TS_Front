@@ -22,7 +22,6 @@ export const SecondaryBar: React.FC<Props> = ({
   temp_max,
   temp_min,
   feels_like,
-  pressure,
   icon,
   index,
 }) => {

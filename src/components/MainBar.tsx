@@ -20,6 +20,8 @@ import { handleImg } from "../shared/imageChoose";
 import { handleDate } from "../shared/dayWriter";
 import UserPool from "../environment/UserPool";
 import { getWeatherData } from "../shared/API";
+import getJwtToken from "../utils/getJwtToken";
+import { Chart } from "./Chart";
 
 export const MainBar: React.FC = () => {
   const { contextValues, setContextValue } = useAppContext();
@@ -37,8 +39,12 @@ export const MainBar: React.FC = () => {
   feels_like = KintoC(feels_like);
 
   const handleDelete = async (favoriteCity: string) => {
+    const userName = UserPool.getCurrentUser()
+      ?.getUsername()
+      .toString() as string;
+
     const postData = {
-      email: UserPool.getCurrentUser()?.getUsername().toString() as string,
+      email: userName,
       favoriteCity: favoriteCity,
     };
 
@@ -47,6 +53,7 @@ export const MainBar: React.FC = () => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
+          Authorization: getJwtToken(),
         },
         body: JSON.stringify(postData),
       });
@@ -56,7 +63,6 @@ export const MainBar: React.FC = () => {
           (favCity) => favCity.favoriteCity !== postData.favoriteCity
         ),
       });
-      console.log(contextValues.favCities);
     } catch (error: unknown) {
       console.log(error);
     }
@@ -80,9 +86,7 @@ export const MainBar: React.FC = () => {
                   >
                     {favoriteCity}{" "}
                   </StyledFavoriteCity>
-
                   <StyledFavoriteDelete
-                    //@ts-ignore
                     onClick={() => {
                       handleDelete(favoriteCity);
                     }}
@@ -117,6 +121,8 @@ export const MainBar: React.FC = () => {
               <StyledSpan> {pressure}Pa</StyledSpan>
             </StyledP>
           </StyledMain>
+          {/*@ts-ignore */}
+          <Chart data={weathers} />
           <StyledSearchBarDiv>
             <SecondaryBarList />
           </StyledSearchBarDiv>

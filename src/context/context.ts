@@ -4,7 +4,7 @@ import React, { Dispatch, SetStateAction } from "react";
 export interface ContextProperties {
   weathers: MainData[];
   icons: string;
-  date: number;
+  date: number[];
   favCities: FavCity[];
   isAuth: boolean;
 }
@@ -17,7 +17,7 @@ interface Context {
 export const defaultContext: ContextProperties = {
   weathers: [],
   icons: "",
-  date: 0,
+  date: [],
   favCities: [],
   isAuth: false,
 };

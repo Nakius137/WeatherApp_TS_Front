@@ -1,4 +1,4 @@
-import { MainData, ApiResponse, Icons, InputValue, FavCity } from "types";
+import { InputValue, FavCity } from "types";
 import useAppContext from "../hooks/useContext";
 import React, { useState, useEffect } from "react";
 import { MainBar } from "../components/MainBar";
@@ -18,21 +18,28 @@ import { getWeatherData } from "../shared/API";
 const App: React.FC = () => {
   const { contextValues, setContextValue } = useAppContext();
 
-  const [destination, setDestination] = useState<string>("");
+  const [destination, setDestination] = useState("");
 
-  const email = UserPool.getCurrentUser()?.getUsername().toString() as string;
+  const userName = UserPool.getCurrentUser()
+    ?.getUsername()
+    .toString() as string;
   const favCities = contextValues.favCities;
+  const accessToken = window.localStorage.getItem(
+    `CognitoIdentityServiceProvider.5vottpm1anpo8o8508t8s5195u.${userName}.accessToken`
+  );
 
   const handleFavorite = async () => {
     const postData: FavCity = {
-      email: email,
+      email: userName,
       favoriteCity: destination,
     };
     try {
       const result = await fetch("http://localhost:5000/favcity", {
         method: "POST",
+        //@ts-ignore
         headers: {
           "Content-Type": "application/json",
+          Authorization: accessToken,
         },
         body: JSON.stringify(postData),
       });
@@ -48,7 +55,7 @@ const App: React.FC = () => {
   };
 
   useEffect(() => {
-    fetch(`/favcity?email=${email}`)
+    fetch(`/favcity?email=${userName}`)
       .then((response) => response.json())
       .then((data) => setContextValue({ ...contextValues, favCities: data }))
       .catch((err) => console.log(err));

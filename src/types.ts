@@ -20,7 +20,13 @@ export interface FavCity {
   favoriteCity: string;
 }
 
-export type Icons = "Clouds" | "Clear" | "Rain";
+export type Icons =
+  | "Clouds"
+  | "Clear"
+  | "Rain"
+  | "Thunderstorm"
+  | "Drizzle"
+  | "Snow";
 
 export type InputValue = React.ChangeEvent<HTMLInputElement>;
 
