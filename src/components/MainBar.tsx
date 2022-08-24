@@ -22,16 +22,19 @@ import UserPool from "../environment/UserPool";
 import { getWeatherData } from "../shared/API";
 import getJwtToken from "../utils/getJwtToken";
 import { Chart } from "./Chart";
+import { StyledChartContainer } from "../styles/StyledChart";
 
 export const MainBar: React.FC = () => {
   const { contextValues, setContextValue } = useAppContext();
 
-  const { icons, weathers, favCities } = contextValues;
+  const { icons, weathers, favCities, date } = contextValues;
 
   let { temp, temp_max, temp_min, feels_like, pressure }: MainData =
     weathers[0] || {};
 
   const index = 0;
+
+  console.log(date, "\n", temp);
 
   temp = KintoC(temp);
   temp_max = KintoC(temp_max);
@@ -122,7 +125,9 @@ export const MainBar: React.FC = () => {
             </StyledP>
           </StyledMain>
           {/*@ts-ignore */}
-          <Chart data={weathers} />
+          <StyledChartContainer>
+            <Chart />
+          </StyledChartContainer>
           <StyledSearchBarDiv>
             <SecondaryBarList />
           </StyledSearchBarDiv>
