@@ -55,7 +55,11 @@ const App: React.FC = () => {
   };
 
   useEffect(() => {
-    fetch(`/favcity?email=${userName}`)
+    fetch(`/favcity?email=${userName}`, {
+      headers: {
+        Authorization: accessToken || "",
+      },
+    })
       .then((response) => response.json())
       .then((data) => setContextValue({ ...contextValues, favCities: data }))
       .catch((err) => console.log(err));
